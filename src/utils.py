@@ -2,7 +2,8 @@ import os
 import sys 
 import pickle 
 from src.exception import CustomException
-from sklearn.metrics import r2_score
+from sklearn.metrics import accuracy_score
+
 from src.logger import logging
 
 def save_function(file_path, obj): 
@@ -20,8 +21,8 @@ def model_performance(X_train, y_train, X_test, y_test, models):
             model.fit(X_train, y_train)
 # Test data
             y_test_pred = model.predict(X_test)
-            #R2 Score 
-            test_model_score = r2_score(y_test, y_test_pred)
+            #accuracy Score 
+            test_model_score = accuracy_score(y_test, y_test_pred)
             report[list(models.keys())[i]] = test_model_score
         return report
 

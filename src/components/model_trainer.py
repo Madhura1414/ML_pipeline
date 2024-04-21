@@ -2,8 +2,12 @@ import pandas as pd
 import numpy as np 
 import sys 
 import os
-from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet 
-from sklearn.tree import DecisionTreeRegressor
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+
 from src.logger import logging 
 from src.exception import CustomException 
 from dataclasses import dataclass
@@ -27,11 +31,11 @@ class ModelTrainer():
                                                 test_array[:, :-1], 
                                                 test_array[:,-1])
             models = {
-                "LinearRegression": LinearRegression(),
-                "Ridge": Ridge(), 
-                "Lasso":Lasso(), 
-                "ElasticNet": ElasticNet(), 
-                "DecisionTree": DecisionTreeRegressor()
+                "LogisticRegression": LogisticRegression(),
+                "K neighbors": KNeighborsClassifier(3),
+                "SVM": SVC(kernel="linear", C=0.025, random_state=42),
+                "Random forest":   RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1, random_state=42),
+                "DecisionTree": DecisionTreeClassifier(max_depth=5, random_state=42)
             }
             model_report: dict = model_performance(X_train, y_train, X_test, y_test, models)
 
@@ -46,9 +50,9 @@ class ModelTrainer():
             
             best_model = models[best_model_name]
 
-            print(f"The best model is {best_model_name}, with R2 Score: {best_model_score}")
+            print(f"The best model is {best_model_name}, with accuracy: {best_model_score}")
             print("\n"*100)
-            logging.info(f"The best model is {best_model_name}, with R2 Score: {best_model_score}")
+            logging.info(f"The best model is {best_model_name}, with accuracy: {best_model_score}")
             save_function(file_path= self.model_trainer_config.trained_model_file_path, obj = best_model)
 
 

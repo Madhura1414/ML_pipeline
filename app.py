@@ -10,20 +10,34 @@ def home_page():
     return render_template('index.html')
 @app.route('/predict', methods = ['POST', "GET"])
 
+
 def predict_datapoint(): 
     if request.method == "GET": 
         return render_template("form.html")
     else: 
         data = CustomData(
-            carat = float(request.form.get('carat')),
-            depth = float(request.form.get('depth')),
-            table = float(request.form.get("table")), 
-            x= float(request.form.get("x")), 
-            y = float(request.form.get("y")),
-            z = float(request.form.get("z")), 
-            cut = request.form.get("cut"), 
-            color = request.form.get("color"), 
-            clarity = request.form.get("clarity")
+            carat = float(request.form.get('trans_date_trans_time')),
+            depth = float(request.form.get('cc_num')),
+            table = float(request.form.get("merchant")), 
+            x= float(request.form.get("category")), 
+            y = float(request.form.get("amt")),
+            z = float(request.form.get("first")), 
+            cut = request.form.get("last"), 
+            color = request.form.get("gender"), 
+            clarity = request.form.get("street"),
+            city = request.form.get('city'),
+            state = request.form.get('state'),
+            zip = int(request.form.get('zip')),
+            lat = float(request.form.get('lat')),
+            long = float(request.form.get('long')),
+            city_pop = int(request.form.get('city_pop')),
+            job = request.form.get('job'),
+            dob = request.form.get('dob'),
+            trans_num = request.form.get('trans_num'),
+            unix_time = int(request.form.get('unix_time')),
+            merch_lat= float(request.form.get('merch_lat')),
+            merch_long=float(request.form.get('merch_long')),
+            is_fraud=int(request.form.get('is_fraud')) 
         )
     new_data = data.get_data_as_dataframe()
     predict_pipeline = PredictPipeline()
